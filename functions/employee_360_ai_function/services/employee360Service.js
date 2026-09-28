@@ -22,10 +22,10 @@ class Employee360Service {
 
     // 3. Persist snapshot asynchronously or on change
     try {
-      await this.repository.saveSnapshot(employeeId, canonical, context);
-    } catch (repoErr) {
-      Logger.warn('Snapshot repository caching skipped', { message: repoErr.message });
-    }
+  await this.repository.saveSnapshot(employeeId, canonical, context);
+} catch (repoErr) {
+  Logger.warn('Snapshot repository caching skipped', { message: repoErr.message });
+}
 
     return canonical;
   }

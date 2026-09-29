@@ -98,6 +98,7 @@ class ZohoPeopleEmployeeService {
       // 3. For alphanumeric codes (e.g. OWN01), search by EMPLOYEEID
       if (!rawRecord) {
         try {
+
           const searchUrl = `${endpoints.employeeList}?searchColumn=EMPLOYEEID&searchValue=${encodeURIComponent(cleanId)}`;
           const res = await this.client.request(searchUrl, { context, dataCenter });
           const list = unwrapRecords(res);
@@ -191,15 +192,17 @@ class ZohoPeopleEmployeeService {
       };
     }
 
-    if (!rawRecord) {
-      return {
-        source: 'zoho_people',
-        employeeId,
-        available: false,
-        error: 'NOT_FOUND',
-        message: `Employee "${employeeId}" not found in Zoho People. Please ensure the employee exists in your Zoho People portal.`
-      };
-    }
+    
+
+if (!rawRecord) {
+  return {
+    source: 'zoho_people',
+    employeeId,
+    available: false,
+    error: 'NOT_FOUND',
+    message: `Employee "${employeeId}" not found in Zoho People. Please ensure the employee exists in your Zoho People portal.`
+  };
+}
 
     return {
       source: 'zoho_people',

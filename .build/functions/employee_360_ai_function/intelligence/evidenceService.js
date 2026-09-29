@@ -14,8 +14,11 @@ class EvidenceService {
         source: 'Zoho People (Employee Form)',
         classification: DATA_CLASSIFICATION.FACT,
         sourceRecordId: canonical.metadata.employeeId,
-        confidence: 'high'
+        confidence: 'high',
+        notes: 'Email address directly obtained from Zoho People employee record.'
       }).toJSON());
+
+      evidenceList[evidenceList.length - 1].value = canonical.employee.email;
     }
 
     if (canonical.employment?.dateOfJoining) {
@@ -25,8 +28,12 @@ class EvidenceService {
         source: 'Zoho People (Employment Record)',
         classification: DATA_CLASSIFICATION.FACT,
         sourceRecordId: canonical.metadata.employeeId,
-        confidence: 'high'
+        confidence: 'high',
+        notes: 'Date of joining directly obtained from Zoho People employee record.'
       }).toJSON());
+
+      evidenceList[evidenceList.length - 1].value =
+        canonical.employment.dateOfJoining;
     }
 
     if (canonical.deterministicMetrics?.tenure?.formatted !== 'Unknown') {
@@ -35,8 +42,13 @@ class EvidenceService {
         field: 'tenure',
         source: 'Calculated from dateOfJoining',
         classification: DATA_CLASSIFICATION.CALCULATION,
-        confidence: 'high'
+        sourceRecordId: canonical.metadata.employeeId,
+        confidence: 'high',
+        notes: 'Tenure calculated deterministically from the employee date of joining.'
       }).toJSON());
+
+      evidenceList[evidenceList.length - 1].value =
+        canonical.deterministicMetrics.tenure.formatted;
     }
 
     if (canonical.performance?.overallRating !== null) {
@@ -45,8 +57,13 @@ class EvidenceService {
         field: 'overallRating',
         source: 'Zoho People Appraisal Module',
         classification: DATA_CLASSIFICATION.FACT,
-        confidence: 'high'
+        sourceRecordId: canonical.metadata.employeeId,
+        confidence: 'high',
+        notes: 'Overall performance rating directly obtained from the performance source.'
       }).toJSON());
+
+      evidenceList[evidenceList.length - 1].value =
+        canonical.performance.overallRating;
     }
 
     return evidenceList;

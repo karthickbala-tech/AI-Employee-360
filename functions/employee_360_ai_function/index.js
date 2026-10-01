@@ -1,9 +1,10 @@
-'use strict';
+﻿'use strict';
 
 const RequestContext = require('./middleware/requestContext');
 const AuthorizationBoundary = require('./middleware/authorization');
 const Router = require('./routes/index');
 const HttpUtils = require('./utils/http');
+const { ValidationError } = require('./utils/errors');
 
 /**
  * Zoho Catalyst Advanced I/O Entry Point
@@ -27,7 +28,11 @@ module.exports = async (req, res) => {
   try {
     // Early stream capture for POST / PUT / PATCH to prevent stream loss
     if (['POST', 'PUT', 'PATCH'].includes((req.method || '').toUpperCase())) {
-      req.parsedBody = await HttpUtils.parseJsonBody(req).catch(err => ({ _parseError: err }));
+      try {
+        req.parsedBody = await HttpUtils.parseJsonBody(req);
+      } catch (err) {
+        throw new ValidationError(err.message || 'Malformed JSON payload');
+      }
     }
 
     // 1. Authenticate & initialize security context
@@ -40,3 +45,5 @@ module.exports = async (req, res) => {
     HttpUtils.sendError(res, err);
   }
 };
+
+

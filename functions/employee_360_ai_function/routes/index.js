@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const url = require('url');
 const { NotFoundError, AppError } = require('../utils/errors');
@@ -102,7 +102,7 @@ class Router {
         nodeVersion: process.version,
         uptimeSeconds: Math.floor(process.uptime()),
         geminiConfigured: Boolean(Environment.getGeminiApiKey()),
-        connection: 'zohopeople_employee360'
+        connection: Environment.getTenantConfig().connectionName
       });
       return;
     }
@@ -138,3 +138,4 @@ class Router {
 }
 
 module.exports = Router;
+

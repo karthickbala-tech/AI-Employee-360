@@ -7,9 +7,8 @@ const Logger = require('../utils/logger');
 
 // Prioritize high-availability current models
 const CANDIDATE_MODELS = [
-  'gemini-flash-lite-latest',
-  'gemini-3.1-flash-lite',
-  'gemini-3.8-flash'
+  'gemini-3.8-flash',
+  'gemini-3.1-flash-lite'
 ];
 
 class GeminiProvider extends AIProvider {

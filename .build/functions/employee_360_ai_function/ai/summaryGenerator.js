@@ -13,8 +13,7 @@ class SummaryGenerator {
   async generateSummary(canonical) {
     if (!canonical.isLiveZohoData) {
       return {
-        summary: `No live employee record was retrieved from Zoho People for ID "${canonical.metadata?.employeeId || 'Unknown'}". Real-time data synchronization requires an active record in your Zoho People portal. Please enter a valid Zoho People employee ID or connect your live Zoho People OAuth token.`,
-        isAiGenerated: false,
+        summary: `No live employee record was retrieved from Zoho People for ID "${canonical.metadata?.employeeId || 'Unknown'}". Real-time data synchronization requires an active record in your Zoho People portal and a working Catalyst Connection. Please enter a valid Zoho People employee ID or verify the Zoho People connection configuration.`,        isAiGenerated: false,
         model: null
       };
     }

@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const Environment = require('../../config/environment');
 const ZohoPeopleEnvironment = require('./zohoPeopleEnvironment');
@@ -8,7 +8,7 @@ const Logger = require('../../utils/logger');
 class ZohoPeopleClient {
   constructor(tenantConfig = null) {
     this.tenantConfig = tenantConfig || Environment.getTenantConfig();
-    this.connectionName = this.tenantConfig.connectionName || 'zohopeople_employee360';
+    this.connectionName = this.tenantConfig.connectionName || 'zohopeople_employee360_v2';
   }
 
   getBaseUrl(dc = null) {
@@ -17,7 +17,7 @@ class ZohoPeopleClient {
 
   /**
    * Resolves the access token using the officially configured Catalyst Connection:
-   * zohopeople_employee360 via zcatalyst-sdk-node.
+   * zohopeople_employee360_v2 via zcatalyst-sdk-node.
    */
     async _resolveConnectionCredentials(req = null) {
     let catalyst;
@@ -188,3 +188,6 @@ const headers = {
 }
 
 module.exports = ZohoPeopleClient;
+
+
+

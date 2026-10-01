@@ -22,7 +22,10 @@ class AIContextBuilder {
       },
       attendance: {
         percentage: canonical.deterministicMetrics?.attendancePercentage?.formatted || 'Unknown',
-        lateDays: canonical.attendance?.lateDays ?? 0
+        lateDays:
+  canonical.deterministicMetrics?.attendancePercentage?.formatted !== 'Unknown'
+    ? canonical.attendance?.lateDays
+    : 'Unknown'
       },
       leave: {
         utilization: canonical.deterministicMetrics?.leaveUtilization?.formatted || 'Unknown'

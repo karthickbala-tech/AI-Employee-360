@@ -1,5 +1,10 @@
 'use strict';
 
+const {
+  DATA_CLASSIFICATION,
+  CONFIDENCE_LEVELS
+} = require('../config/constants');
+
 class AIGuardrails {
   static getSystemPolicy() {
     return [
@@ -16,6 +21,49 @@ class AIGuardrails {
   static sanitizePrompt(prompt) {
     if (typeof prompt !== 'string') return '';
     return prompt.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim();
+  }
+
+  static validateAskResponse(response) {
+    if (!response || typeof response !== 'object') {
+      return null;
+    }
+
+    const validTypes = Object.values(DATA_CLASSIFICATION);
+    const validConfidence = Object.values(CONFIDENCE_LEVELS);
+
+    if (typeof response.answer !== 'string' || !response.answer.trim()) {
+      return null;
+    }
+
+    if (!validTypes.includes(response.type)) {
+      return null;
+    }
+
+    if (!validConfidence.includes(response.confidence)) {
+      return null;
+    }
+
+    if (
+      !Array.isArray(response.evidence) ||
+      !response.evidence.every(item => typeof item === 'string')
+    ) {
+      return null;
+    }
+
+    if (
+      !Array.isArray(response.limitations) ||
+      !response.limitations.every(item => typeof item === 'string')
+    ) {
+      return null;
+    }
+
+    return {
+      answer: response.answer.trim(),
+      type: response.type,
+      confidence: response.confidence,
+      evidence: response.evidence,
+      limitations: response.limitations
+    };
   }
 }
 

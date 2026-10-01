@@ -52,13 +52,13 @@ class AskGenerator {
       if (completion) {
         const clean = completion.replace(/^```json/g, '').replace(/```$/g, '').trim();
         const parsed = JSON.parse(clean);
-        return {
-          answer: parsed.answer || 'No answer generated.',
-          type: parsed.type || DATA_CLASSIFICATION.AI_INSIGHT,
-          confidence: parsed.confidence || CONFIDENCE_LEVELS.MEDIUM,
-          evidence: Array.isArray(parsed.evidence) ? parsed.evidence : [],
-          limitations: Array.isArray(parsed.limitations) ? parsed.limitations : canonical.limitations
-        };
+const validated = AIGuardrails.validateAskResponse(parsed);
+
+if (!validated) {
+  throw new Error('Gemini returned an invalid Ask AI response structure');
+}
+
+return validated;
       }
     } catch (err) {
       Logger.warn('AI Ask generator fallback triggered', { message: err.message });

@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const crypto = require('crypto');
 const Environment = require('../config/environment');
@@ -8,7 +8,7 @@ class RequestContext {
     const requestId = req.headers['x-request-id'] || crypto.randomUUID();
     const clientIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
     const tenantConfig = Environment.getTenantConfig();
-    const dataCenter = req.headers['x-zoho-datacenter'] || tenantConfig.dataCenter || 'in';
+    const dataCenter = tenantConfig.dataCenter;
 
     return {
       req, // Preserve req for catalyst.initialize(req)
@@ -24,3 +24,4 @@ class RequestContext {
 }
 
 module.exports = RequestContext;
+

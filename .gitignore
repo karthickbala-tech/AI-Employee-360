@@ -111,6 +111,7 @@ coverage/
 .catalyst-cli/
 catalyst-debug.log
 
+
 # ------------------------------------------------------------
 
 # Secret/key/certificate files
